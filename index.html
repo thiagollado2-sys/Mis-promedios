@@ -722,10 +722,10 @@ footer {
     // Cargar datos de Firebase
     async function loadData() {
         try {
-            const docRef = doc(db, "appData", "notasUsuario");
+            const docRef = doc(db, "Mis promedios", "f7lt5peGvS3TGIHGmF0u");
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
-                datos = docSnap.data().materias || {};
+                datos = docSnap.data().promedio || {};
             }
         } catch (e) {
             console.error("Error al cargar de Firebase:", e);
