@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis Promedios</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --azul: #1677d2;
+    --celeste: #49b9ea;
+    --fondo: #f2faff;
+    --celeste-claro: #e8f6ff;
+    --texto: #17324d;
+    --gris: #6b8194;
+    --borde: #d5eaf6;
+    --rojo: #d9415d;
+    --rojo-fondo: #fff0f3;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(145deg, #eef9ff, #f8fcff);
+    color: var(--texto);
+    min-height: 100vh;
+}
+
+/* HEADER */
+
+header {
+    background: linear-gradient(135deg, #0875c9, #49b9ea);
+    color: white;
+    padding: 30px 22px;
+    box-shadow: 0 5px 22px rgba(20,120,190,.18);
+    animation: fadeInDown 0.6s ease-out;
+}
+
+.header-inner {
+    max-width: 1050px;
+    margin: auto;
+}
+
+header h1 {
+    font-size: 32px;
+}
+
+header p {
+    margin-top: 5px;
+    opacity: .92;
+}
+
+/* CONTENEDOR */
+
+.container {
+    max-width: 1050px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.view {
+    display: none;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.view.active {
+    display: block;
+}
+
+/* TARJETAS CON ANIMACIÓN */
+
+.card {
+    background: white;
+    border: 1px solid var(--borde);
+    border-radius: 22px;
+    padding: 26px;
+    box-shadow: 0 8px 28px rgba(27,113,163,.08);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 12px 35px rgba(27,113,163,0.12);
+}
+
+/* LOGIN / PANTALLA DE INICIO */
+
+.login-box {
+    max-width: 420px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.login-box h2 {
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.login-box p {
+    color: var(--gris);
+    margin-bottom: 22px;
+}
+
+.login-box input {
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+}
+
+/* EFECTO DE SACUDIDA PARA CONTRASEÑA INCORRECTA */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-10px); }
+    40% { transform: translateX(10px); }
+    60% { transform: translateX(-10px); }
+    80% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+}
+
+.shake {
+    animation: shake 0.4s ease-in-out;
+    border-color: var(--rojo) !important;
+    background-color: var(--rojo-fondo) !important;
+}
+
+.error-msg {
+    color: var(--rojo);
+    font-size: 13px;
+    font-weight: 650;
+    margin-top: -8px;
+    margin-bottom: 15px;
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+/* INICIO */
+
+.home-title {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.home-title h2 {
+    font-size: 28px;
+}
+
+.home-title p {
+    color: var(--gris);
+    margin-top: 7px;
+}
+
+.menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 760px;
+    margin: auto;
+}
+
+.menu-btn {
+    border: 1px solid var(--borde);
+    background: linear-gradient(180deg, #fff, #f4fbff);
+    border-radius: 20px;
+    padding: 30px 24px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 5px 18px rgba(26,125,180,.07);
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-btn:hover {
+    transform: translateY(-6px) scale(1.02);
+    border-color: #8bd1f0;
+    box-shadow: 0 14px 30px rgba(26,125,180,.18);
+    background: linear-gradient(180deg, #ffffff, #e8f6ff);
+}
+
+.menu-btn:active {
+    transform: translateY(-2px) scale(1.00);
+}
+
+.icon {
+    font-size: 38px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.menu-btn:hover .icon {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.menu-btn h3 {
+    font-size: 20px;
+}
+
+.menu-btn p {
+    color: var(--gris);
+    margin-top: 6px;
+}
+
+/* ENCABEZADOS */
+
+.page-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.page-head h2 {
+    font-size: 26px;
+}
+
+.page-head p {
+    color: var(--gris);
+    margin-top: 4px;
+}
+
+/* BOTONES INTERACTIVOS */
+
+button {
+    border: 0;
+    border-radius: 11px;
+    padding: 11px 16px;
+    font-size: 14px;
+    font-weight: 650;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+button:hover {
+    transform: translateY(-2px) scale(1.03);
+    filter: brightness(1.05);
+}
+
+button:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+.primary {
+    background: var(--azul);
+    color: white;
+    box-shadow: 0 4px 15px rgba(22, 119, 210, 0.3);
+}
+
+.secondary {
+    background: var(--celeste-claro);
+    color: #0868ad;
+}
+
+.danger {
+    background: #fff0f3;
+    color: #c83d58;
+}
+
+.back {
+    margin-bottom: 18px;
+}
+
+/* FORMULARIO */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+}
+
+.field label {
+    display: block;
+    font-size: 14px;
+    font-weight: 650;
+    margin-bottom: 7px;
+}
+
+select,
+input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #cfe5f2;
+    border-radius: 11px;
+    font-size: 16px;
+    outline: none;
+    background: white;
+    color: var(--texto);
+    transition: all 0.2s ease;
+}
+
+select:focus,
+input:focus {
+    border-color: #42a9dc;
+    box-shadow: 0 0 0 4px rgba(66,169,220,.15);
+    transform: translateY(-1px);
+}
+
+/* AGREGAR NOTA */
+
+.add-row {
+    display: grid;
+    grid-template-columns: 1fr 160px;
+    gap: 10px;
+    align-items: end;
+    margin-top: 18px;
+}
+
+.notes-box {
+    margin-top: 25px;
+}
+
+.notes-box h3 {
+    margin-bottom: 12px;
+}
+
+.notes {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+/* NOTAS CON ANIMACIÓN DE ENTRADA */
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.note {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--fondo);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 12px 14px;
+    animation: slideInUp 0.3s ease-out;
+    transition: all 0.2s ease;
+}
+
+.note:hover {
+    border-color: #8bd1f0;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(26,125,180,0.08);
+}
+
+.note strong {
+    font-size: 20px;
+}
+
+.empty {
+    text-align: center;
+    color: var(--gris);
+    padding: 30px;
+    animation: fadeIn 0.4s ease;
+}
+
+/* PROMEDIO */
+
+.average {
+    margin-top: 22px;
+    padding: 18px;
+    border-radius: 16px;
+    background: linear-gradient(135deg,#e8f7ff,#f4fbff);
+    text-align: center;
+    border: 1px solid var(--borde);
+    transition: transform 0.3s ease;
+}
+
+.average:hover {
+    transform: scale(1.01);
+}
+
+.average span {
+    display: block;
+    color: var(--gris);
+    font-size: 14px;
+}
+
+.average strong {
+    display: block;
+    font-size: 34px;
+    color: #0875c9;
+    margin-top: 3px;
+}
+
+/* TABLA */
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 15px 12px;
+    border-bottom: 1px solid #e4eff5;
+    text-align: left;
+    transition: background 0.2s ease;
+}
+
+tbody tr {
+    transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+    background-color: #f8fcff;
+}
+
+th {
+    font-size: 13px;
+    text-transform: uppercase;
+    color: var(--gris);
+}
+
+td:last-child {
+    text-align: right;
+    font-weight: 750;
+    color: #0875c9;
+}
+
+/* MATERIAS DESAPROBADAS */
+
+.low-row {
+    background: var(--rojo-fondo);
+}
+
+.low-row:hover {
+    background-color: #ffe6eb !important;
+}
+
+.low-row td {
+    color: var(--rojo) !important;
+    font-weight: 700;
+}
+
+.low-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: #ffdce3;
+    color: var(--rojo);
+}
+
+.good-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: var(--celeste-claro);
+    color: #0868ad;
+}
+
+footer {
+    text-align: center;
+    color: #8aa0b1;
+    font-size: 13px;
+    padding: 30px;
+}
+
+/* ANIMACIONES GENERALES */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* CELULAR */
+
+@media (max-width: 700px) {
+
+    .menu {
+        grid-template-columns: 1fr;
+    }
+
+    .add-row {
+        grid-template-columns: 1fr;
+    }
+
+    .page-head {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    header h1 {
+        font-size: 27px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+        <h1>🩵 Mis Promedios</h1>
+        <p>Tu espacio para organizar tus calificaciones</p>
+    </div>
+</header>
+
+<div class="container">
+
+<!-- ========================= -->
+<!-- PANTALLA DE ACCESO (LOGIN) -->
+<!-- ========================= -->
+<section id="login" class="view active">
+    <div class="card login-box">
+        <h2>🔒 Acceso Protegido</h2>
+        <p>Ingresá la contraseña</p>
+        
+        <input 
+            type="password" 
+            id="passwordInput" 
+            placeholder="Contraseña"
+            onkeydown="if(event.key==='Enter') verificarPassword()"
+            oninput="ocultarError()"
+        >
+        <div id="errorMsg" class="error-msg">⚠️ Contraseña incorrecta. Inténtalo de nuevo.</div>
+        
+        <button class="primary" onclick="verificarPassword()">
+            Entrar
+        </button>
+    </div>
+</section>
+
+<!-- ========================= -->
+<!-- INICIO -->
+<!-- ========================= -->
+<section id="home" class="view">
+    <div class="card">
+        <div class="home-title">
+            <h2>¡Hola Thiago! 👋</h2>
+            <p>¿Qué querés hacer?</p>
+        </div>
+
+        <div class="menu">
+            <button class="menu-btn" onclick="showView('add')">
+                <div class="icon">📝</div>
+                <h3>Agregar notas</h3>
+                <p>Elegí una materia y cargá tus calificaciones.</p>
+            </button>
+
+            <button class="menu-btn" onclick="showView('averages')">
+                <div class="icon">📊</div>
+                <h3>Ver promedios</h3>
+                <p>Consultá todos tus promedios en un solo lugar.</p>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ========================= -->
+<!-- AGREGAR NOTAS -->
+<!-- ========================= -->
+<section id="add" class="view">
+    <button class="secondary back" onclick="showView('home')">
+        ← Volver al inicio
+    </button>
+
+    <div class="card">
+        <div class="page-head">
+            <div>
+                <h2>📝 Agregar notas</h2>
+                <p>Seleccioná una materia y cargá sus calificaciones.</p>
+            </div>
+        </div>
+
+        <div class="form-grid">
+            <div class="field">
+                <label for="subject">Materia</label>
+                <select id="subject" onchange="renderNotes()"></select>
+            </div>
+        </div>
+
+        <div class="add-row">
+            <div class="field">
+                <label for="note">Nueva nota</label>
+                <input id="note" type="number" min="1" max="10" step="0.01" placeholder="Ej.: 8" onkeydown="if(event.key==='Enter') addNote()">
+            </div>
+            <button class="primary" onclick="addNote()">+ Agregar nota</button>
+        </div>
+
+        <div class="average">
+            <span>Promedio de la materia</span>
+            <strong id="subjectAverage">—</strong>
+        </div>
+
+        <div class="notes-box">
+            <h3>Calificaciones cargadas</h3>
+            <div id="notes" class="notes"></div>
+        </div>
+
+        <div style="margin-top:20px; text-align:right;">
+            <button class="danger" onclick="clearSubject()">Borrar notas de esta materia</button>
+        </div>
+    </div>
+</section>
+
+<!-- ========================= -->
+<!-- PROMEDIOS -->
+<!-- ========================= -->
+<section id="averages" class="view">
+    <button class="secondary back" onclick="showView('home')">
+        ← Volver al inicio
+    </button>
+
+    <div class="card">
+        <div class="page-head">
+            <div>
+                <h2>📊 Mis promedios</h2>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Materia</th>
+                        <th>Promedio</th>
+                    </tr>
+                </thead>
+                <tbody id="averageTable"></tbody>
+            </table>
+        </div>
+
+        <div style="margin-top:22px; text-align:right;">
+            <button class="danger" onclick="clearAll()">Borrar todos los datos</button>
+        </div>
+    </div>
+</section>
+
+</div>
+
+<footer>
+    Mis Promedios · Aplicación personal
+</footer>
+
+<!-- ========================= -->
+<!-- SCRIPT DE FIREBASE Y LÓGICA -->
+<!-- ========================= -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA0-bOmkL1-sKM5Da9Af5-qX_Jcnu5X4-w",
+        authDomain: "mis-promedios.firebaseapp.com",
+        projectId: "mis-promedios",
+        storageBucket: "mis-promedios.firebasestorage.app",
+        messagingSenderId: "807345979416",
+        appId: "1:807345979416:web:75d5556600c867ba39036d",
+        measurementId: "G-8LS6ZD4XCM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const materias = [
+        "Biología", "Educación Física", "Encuentro de Vida", "Geografía",
+        "Historia", "Inglés", "Física", "Química", "Literatura",
+        "Matemática", "NTICx", "Salud y Adolescencia", "Huerta",
+        "Taller de Educación Sostenible"
+    ];
+
+    let datos = {};
+
+    // Función para validar la contraseña con animación y error visual integrado
+    window.verificarPassword = function() {
+        const inputPass = document.getElementById("passwordInput");
+        const errorDiv = document.getElementById("errorMsg");
+        
+        if (inputPass.value === "thiago2011") {
+            showView('home');
+            loadData(); 
+        } else {
+            // Aplicar efecto de sacudida y mostrar mensaje de error bonito
+            inputPass.classList.add("shake");
+            errorDiv.style.display = "block";
+            
+            setTimeout(() => {
+                inputPass.classList.remove("shake");
+            }, 400);
+
+            inputPass.value = "";
+            inputPass.focus();
+        }
+    }
+
+    // Ocultar mensaje de error al volver a escribir
+    window.ocultarError = function() {
+        const errorDiv = document.getElementById("errorMsg");
+        const inputPass = document.getElementById("passwordInput");
+        errorDiv.style.display = "none";
+        inputPass.classList.remove("shake");
+    }
+
+    // Cargar datos de Firebase
+    async function loadData() {
+        try {
+            const docRef = doc(db, "appData", "notasUsuario");
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                datos = docSnap.data().materias || {};
+            }
+        } catch (e) {
+            console.error("Error al cargar de Firebase:", e);
+        }
+        setupSubjects();
+        renderNotes();
+    }
+
+    // Guardar datos en Firebase
+    async function save() {
+        try {
+            await setDoc(doc(db, "appData", "notasUsuario"), { materias: datos });
+        } catch (e) {
+            console.error("Error al guardar en Firebase:", e);
+        }
+    }
+
+    function getNotes(materia) {
+        return datos[materia] || [];
+    }
+
+    function average(notas) {
+        if (notas.length === 0) return null;
+        return notas.reduce((total, nota) => total + Number(nota), 0) / notas.length;
+    }
+
+    function formatAverage(notas) {
+        const promedio = average(notas);
+        if (promedio === null) return "—";
+        return promedio.toFixed(2).replace(".", ",");
+    }
+
+    window.showView = function(id) {
+        document.querySelectorAll(".view").forEach(view => {
+            view.classList.remove("active");
+        });
+        document.getElementById(id).classList.add("active");
+
+        if (id === "add") renderNotes();
+        if (id === "averages") renderAverages();
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function setupSubjects() {
+        const select = document.getElementById("subject");
+        select.innerHTML = "";
+        materias.forEach(materia => {
+            const option = document.createElement("option");
+            option.value = materia;
+            option.textContent = materia;
+            select.appendChild(option);
+        });
+    }
+
+    window.addNote = async function() {
+        const materia = document.getElementById("subject").value;
+        const input = document.getElementById("note");
+        const valor = Number(input.value.replace(",", "."));
+
+        if (input.value === "" || !Number.isFinite(valor) || valor < 1 || valor > 10) {
+            alert("Ingresá una nota válida entre 1 y 10.");
+            return;
+        }
+
+        if (!datos[materia]) {
+            datos[materia] = [];
+        }
+
+        datos[materia].push(valor);
+        await save();
+
+        input.value = "";
+        input.focus();
+        renderNotes();
+    }
+
+    window.renderNotes = function() {
+        const materia = document.getElementById("subject").value;
+        const notas = getNotes(materia);
+        const container = document.getElementById("notes");
+
+        document.getElementById("subjectAverage").textContent = formatAverage(notas);
+        container.innerHTML = "";
+
+        if (notas.length === 0) {
+            container.innerHTML = `<div class="empty">Todavía no cargaste notas para esta materia.</div>`;
+            return;
+        }
+
+        [...notas].reverse().forEach((nota, posicion) => {
+            const indiceOriginal = notas.length - 1 - posicion;
+            const div = document.createElement("div");
+            div.className = "note";
+            div.innerHTML = `
+                <strong>${Number(nota).toString().replace(".", ",")}</strong>
+                <button class="danger" onclick="deleteNote(${indiceOriginal})">Eliminar</button>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    window.deleteNote = async function(indice) {
+        const materia = document.getElementById("subject").value;
+        datos[materia].splice(indice, 1);
+        if (datos[materia].length === 0) {
+            delete datos[materia];
+        }
+        await save();
+        renderNotes();
+    }
+
+    window.clearSubject = async function() {
+        const materia = document.getElementById("subject").value;
+        if (getNotes(materia).length === 0) return;
+
+        const confirmar = confirm("¿Querés borrar todas las notas de " + materia + "?");
+        if (!confirmar) return;
+
+        delete datos[materia];
+        await save();
+        renderNotes();
+    }
+
+    window.renderAverages = function() {
+        const tabla = document.getElementById("averageTable");
+        tabla.innerHTML = "";
+
+        materias.forEach(materia => {
+            const notas = getNotes(materia);
+            const promedio = average(notas);
+            const estaBajo = promedio !== null && promedio < 7;
+            const fila = document.createElement("tr");
+
+            if (estaBajo) fila.className = "low-row";
+
+            let promedioHTML;
+            if (promedio === null) {
+                promedioHTML = "—";
+            } else if (estaBajo) {
+                promedioHTML = `<span class="low-badge">${formatAverage(notas)}</span>`;
+            } else {
+                promedioHTML = `<span class="good-badge">${formatAverage(notas)}</span>`;
+            }
+
+            fila.innerHTML = `
+                <td>${materia}</td>
+                <td>${promedioHTML}</td>
+            `;
+            tabla.appendChild(fila);
+        });
+    }
+
+    window.clearAll = async function() {
+        const confirmar = confirm("¿Seguro que querés borrar todas las notas de todas las materias?");
+        if (!confirmar) return;
+
+        datos = {};
+        await save();
+        renderAverages();
+        renderNotes();
+    }
+</script>
+
+</body>
+</html>
