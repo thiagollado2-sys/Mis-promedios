@@ -665,7 +665,7 @@ footer {
 <!-- ========================= -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyA0-bOmkL1-sKM5Da9Af5-qX_Jcnu5X4-w",
@@ -737,7 +737,7 @@ footer {
     // Guardar datos en Firebase
     async function save() {
         try {
-            await setDoc(doc(db, "Mis promedios", "f7lt5peGvS3TGIHGmF0u"), { promedio: datos });
+            await updateDoc(doc(db, "Mis promedios", "f7lt5peGvS3TGIHGmF0u"), { promedio: datos });
         } catch (e) {
             console.error("Error al guardar en Firebase:", e);
         }
