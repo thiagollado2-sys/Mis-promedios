@@ -719,17 +719,21 @@ footer {
         inputPass.classList.remove("shake");
     }
 
-    // Cargar datos de Firebase
+// Cargar datos de Firebase
     async function loadData() {
         try {
             const docRef = doc(db, "Mis promedios", "f7lt5peGvS3TGIHGmF0u");
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
-               const firestoreData = docSnap.data().promedio;
-datos = (typeof firestoreData === 'object' && firestoreData !== null) ? firestoreData : {};
+                const firestoreData = docSnap.data().promedio;
+                // Si lo que viene de firebase no es un objeto válido, lo forzamos a ser un objeto vacío
+                datos = (firestoreData && typeof firestoreData === 'object' && !Array.isArray(firestoreData)) ? firestoreData : {};
+            } else {
+                datos = {};
             }
         } catch (e) {
             console.error("Error al cargar de Firebase:", e);
+            datos = {};
         }
         setupSubjects();
         renderNotes();
@@ -738,7 +742,11 @@ datos = (typeof firestoreData === 'object' && firestoreData !== null) ? firestor
     // Guardar datos en Firebase
     async function save() {
         try {
-            await updateDoc(doc(db, "Mis promedios", "f7lt5peGvS3TGIHGmF0u"), { promedio: datos });
+            // Nos aseguramos de que 'datos' sea siempre un objeto antes de guardar
+            if (typeof datos !== 'object' || datos === null || Array.isArray(datos)) {
+                datos = {};
+            }
+            await setDoc(doc(db, "Mis promedios", "f7lt5peGvS3TGIHGmF0u"), { promedio: datos }, { merge: true });
         } catch (e) {
             console.error("Error al guardar en Firebase:", e);
         }
