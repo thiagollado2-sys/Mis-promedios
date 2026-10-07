@@ -737,7 +737,7 @@ footer {
     // Guardar datos en Firebase
     async function save() {
         try {
-            await setDoc(doc(db, "appData", "notasUsuario"), { materias: datos });
+            await setDoc(doc(db, "Mis promedios", "f7lt5peGvS3TGIHGmF0u"), { promedio: datos });
         } catch (e) {
             console.error("Error al guardar en Firebase:", e);
         }
