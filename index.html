@@ -725,7 +725,8 @@ footer {
             const docRef = doc(db, "Mis promedios", "f7lt5peGvS3TGIHGmF0u");
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
-                datos = docSnap.data().promedio || {};
+               const firestoreData = docSnap.data().promedio;
+datos = (typeof firestoreData === 'object' && firestoreData !== null) ? firestoreData : {};
             }
         } catch (e) {
             console.error("Error al cargar de Firebase:", e);
